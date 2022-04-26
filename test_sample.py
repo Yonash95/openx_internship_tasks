@@ -1,5 +1,5 @@
 import requests
-
+from varname import nameof
 
 def ping():
     """A simple health check endpoint to confirm whether the API is up and running."""
@@ -76,30 +76,24 @@ def update_booking(booking_id, fname, lname, tprice, dpaid, indate, outdate, add
     return response
 
 
-'''def partial_update(booking_id, firstname="", lastname="", totalprice="", depositpaid="", checkin="", checkout="", additionalneeds=""):
+'''def partial_update(booking_id, firstname="", lastname="", totalprice="", depositpaid="", checkin="", checkout="",
+                   additionalneeds=""):
     """Updates a current booking with a partial payload"""
     arg_list = [booking_id, firstname, lastname, totalprice, depositpaid, checkin, checkout, additionalneeds]
-    narg_list = []
-    booking = get_booking(booking_id)
-    for i,j in enumerate(arg_list):
-        if i:
-            narg_list.append(j)
-        else:
-            narg_list.append(booking[i])
+    booking = get_booking(booking_id).json()['booking']
+    newbooking = {}
+    print(booking.json())
+    for i, j in enumerate(arg_list):
+        if j:
+            newbooking[] += 
+        if not j:
+            booking['booking'][j] = arg_list[i]
+
     response = requests.patch(
         url="https://restful-booker.herokuapp.com/booking/{}".format(booking_id),
-        json={"firstname": firstname,
-              "lastname": lastname,
-              "totalprice": totalprice,
-              "depositpaid": depositpaid,
-              "bookingdates": {
-                  "checkin": checkin,
-                  "checkout": checkout
-              },
-              "additionalneeds": additionalneeds
-              }, cookies={"token": create_token("admin", "password123").json()["token"]})
-    return response
-'''
+        json=booking,
+        cookies={"token": create_token("admin", "password123").json()["token"]})
+    return response '''
 
 
 def delete_booking(booking_id):
@@ -168,7 +162,7 @@ class Tests:
         assert create_booking("Jan", "Kowalski", 212, True, "2022-01-01", "2022-01-02", "dinner").status_code == 200
 
     def test_create_booking_no_additional(self):
-        """create_booking with correct values without key 'additionalneeds' """
+        """create_booking with correct values without key 'additionalneeds'"""
         assert create_booking("Jan", "Kowalski", 212, True, "2022-01-01", "2022-01-02").status_code == 200
 
     def test_create_booking_incorrect_value(self):
@@ -217,6 +211,7 @@ class Tests:
         assert delete_booking(0).status_code == 405
 
 
-'''    def test_partial_update_booking_correct(self):
+def test_partial_update_booking_correct(self):
         """partial_update with correct values"""
-        assert partial_update(booking_id=1, fname="Harry").status_code == 200'''
+        booking = create_booking("Jan", "Kowalski", 212, True, "2022-01-01", "2022-01-02").json()
+        assert partial_update(booking, firstname="Harry").status_code == 200
