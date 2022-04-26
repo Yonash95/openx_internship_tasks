@@ -208,4 +208,4 @@ class Tests:
     def test_partial_update_booking_incorrect(self):
         """partial_update with incorrect values"""
         booking = create_booking("Jan", "Kowalski", 212, True, "2022-01-01", "2022-01-02").json()
-        assert partial_update(booking['bookingid'], updates={"firstname": 0}).status_code == 200
+        assert partial_update(booking['bookingid'], updates={"firstname": 2}).status_code == 200
