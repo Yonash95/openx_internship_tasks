@@ -6,5 +6,6 @@ First task. File with table of input/output data sets with description.
 
 # test_sample.py
 Second task. File with functions and test-cases for restful-booker API
-
-
+Observations:
+- PartialUpdateBooking can take inncorrect values types in place of strings. No matter value tape it allways returns hhtps code 200
+- CreateToken return code 200 with incorrect creditential given, but JSON obcjet is {'reason': 'Bad credentials'}
