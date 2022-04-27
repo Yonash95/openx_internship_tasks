@@ -20,7 +20,6 @@ def get_bookingids(firstname="", lastname="", checkin="", checkout=""):
     varlist = [firstname, lastname, checkin, checkout]
     url = "https://restful-booker.herokuapp.com/booking?"
     for i in varlist:
-        print(i)
         if i:
             if i == firstname:
                 url = url + "firstname=" + i + "&"
@@ -111,9 +110,11 @@ class Tests:
         assert get_bookingids(firstname="").status_code == 200
 
     def test_get_bookingids_checkin(self):
-        """get_bookingids test with checkin value greater than in argument"""  # in documentation is greater and equal
-        create_booking(updates)
-        assert get_bookingids(checkin="2021-01-01").status_code == 200
+        """get_bookingids test with checkin value greater than in argument"""
+        booking = create_booking(updates)
+        booking1 = get_bookingids(checkin="2021-01-01")
+        assert booking1.status_code == 200
+        assert {'bookingid': booking.json()['bookingid']} in booking1.json()
 
     def test_get_bookingids_checkin_year(self):
         """get_bookingids test with only year in checkin value"""
