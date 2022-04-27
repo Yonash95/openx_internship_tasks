@@ -164,11 +164,14 @@ class Tests:
 
     def test_create_token_correct(self):
         """create_token with correct admin and password values"""
-        assert create_token("admin", "password123").status_code == 200
+        token = create_token("admin", "password123")
+        assert token.status_code == 200
 
     def test_create_token_incorrect(self):
         """create_token with incorrect admin and password values"""
-        assert create_token("admi", "assword123").json() == {'reason': 'Bad credentials'}
+        token = create_token("admi", "assword123")
+        assert token.status_code == 200 #bad creditentials should give 4## status code
+        assert token.json() == {'reason': 'Bad credentials'}
 
     def test_create_token_empty(self):
         """create_token with empty admin and password values"""
