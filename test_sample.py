@@ -55,7 +55,7 @@ def create_token(uname, passw):
 def update_booking(booking_id, update):
     """Updates a current booking with a partial payload"""
     response = requests.put(
-        url="https://restful-booker.herokuapp.com/booking/{}".format(booking_id),
+        url=f"https://restful-booker.herokuapp.com/booking/{booking_id}",
         json=update,
         cookies={"token": create_token("admin", "password123").json()["token"]})
     return response
@@ -64,7 +64,7 @@ def update_booking(booking_id, update):
 def partial_update(booking_id, update):
     """Updates a current booking with a partial payload"""
     response = requests.patch(
-        url="https://restful-booker.herokuapp.com/booking/{}".format(booking_id),
+        url=f"https://restful-booker.herokuapp.com/booking/{booking_id}",
         json=update,
         cookies={"token": create_token("admin", "password123").json()["token"]})
     return response
@@ -73,7 +73,7 @@ def partial_update(booking_id, update):
 def delete_booking(booking_id):
     """Deletes booking with given id"""
     response = requests.delete(
-        url="https://restful-booker.herokuapp.com/booking/{}".format(booking_id),
+        url=f"https://restful-booker.herokuapp.com/booking/{booking_id}",
         cookies={"token": create_token("admin", "password123").json()["token"]})
     return response
 
