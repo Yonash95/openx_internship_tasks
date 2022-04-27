@@ -147,9 +147,15 @@ class Tests:
 
     def test_create_booking_no_additional(self):
         """create_booking with correct values without key 'additionalneeds'"""
-        booking = create_booking(updates)
+        data = {'firstname': 'Jan',
+           'lastname': 'Kowalski',
+           'totalprice': 212,
+           'depositpaid': True,
+           'bookingdates': {'checkin': '2022-01-01', 'checkout': '2022-01-02'},
+           }
+        booking = create_booking(data)
         assert booking.status_code == 200
-        assert booking.json()['booking'] == updates
+        assert booking.json()['booking'] == data
 
     def test_create_booking_incorrect_value(self):
         """create_booking with incorrect 'firstname' type"""
@@ -227,7 +233,24 @@ class Tests:
         booking = create_booking(updates).json()
         assert partial_update(booking['bookingid'], update={'firstname': 'Jan'}).status_code == 200
 
-    def test_partial_update_booking_incorrect(self):
-        """partial_update with incorrect values"""  # bug, it can update with types different than intended
+    def test_partial_update_booking_incorrect_firstname(self):
+        """partial_update with incorrect firstname values"""  # bug, it can update firstname with different type
         booking = create_booking(updates).json()
-        assert partial_update(booking['bookingid'], update={'firstname': 2, 'depositpaid': 3}).status_code == 200
+        booking1 = partial_update(booking['bookingid'], update={'firstname': 2})
+        assert booking1.status_code == 200
+        assert booking1.json()['firstname'] == 2
+
+    def test_partial_update_booking_incorrect_lastname(self):
+        """partial_update with incorrect firstname values"""  # bug, it can update lastname with different type
+        booking = create_booking(updates).json()
+        booking1 = partial_update(booking['bookingid'], update={'lastname': True})
+        assert booking1.status_code == 200
+        assert booking1.json()['lastname'] == True
+
+    def test_partial_update_booking_incorrect_checkin(self):
+        """partial_update with incorrect firstname values"""  # bug, status code is 200 but data is not updated
+        booking = create_booking(updates).json()
+        booking1 = partial_update(booking['bookingid'], update={'checkin': True})
+        assert booking1.status_code == 200
+        assert booking1.json()['bookingdates']['checkin'] == True
+
