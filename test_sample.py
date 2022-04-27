@@ -1,11 +1,11 @@
 import requests
 
-updates = {'firstname': 'Jan',
-           'lastname': 'Kowalski',
-           'totalprice': 212,
-           'depositpaid': True,
-           'bookingdates': {'checkin': '2022-01-01', 'checkout': '2022-01-02'},
-           'additionalneeds': 'dinner'}  # global variable for tests
+booking_data = {'firstname': 'Jan',
+                'lastname': 'Kowalski',
+                'totalprice': 212,
+                'depositpaid': True,
+                'bookingdates': {'checkin': '2022-01-01', 'checkout': '2022-01-02'},
+                'additionalneeds': 'dinner'}  # global variable for tests
 
 
 def ping():
@@ -29,7 +29,7 @@ def get_bookingids(firstname="", lastname="", checkin="", checkout=""):
                 url = url + "checkin=" + i + "&"
             if i == checkout:
                 url = url + "checkout=" + i + "&"
-    response = requests.get(url=url.format())
+    response = requests.get(url=url)
     return response
 
 
@@ -41,8 +41,7 @@ def get_booking(booking_id):
 
 def create_booking(update):
     """Creates a new booking in the API"""
-    response = requests.post(url="https://restful-booker.herokuapp.com/booking", json=update
-                             )
+    response = requests.post(url="https://restful-booker.herokuapp.com/booking", json=update)
     return response
 
 
@@ -90,45 +89,45 @@ class Tests:
 
     def test_get_bookingids_fname(self):
         """get_bookingids test with one argument"""
-        booking1 = create_booking(update={'firstname': 'Januszek', 'lastname': 'Kowalski', 'totalprice': 212,
+        booking = create_booking(update={'firstname': 'Januszek', 'lastname': 'Kowalski', 'totalprice': 212,
                                           'depositpaid': True,
                                           'bookingdates': {'checkin': '2022-01-01', 'checkout': '2022-01-02'},
                                           'additionalneeds': 'dinner'}).json()['bookingid']
-        booking = get_bookingids(firstname="Januszek")
-        assert booking.status_code == 200
-        assert booking.json()[0]['bookingid'] == booking1
-        delete_booking(booking1)
+        booking_list = get_bookingids(firstname="Januszek")
+        assert booking_list.status_code == 200
+        assert booking_list.json()[0]['bookingid'] == booking
+        delete_booking(booking)
 
     def test_get_bookingids_fandlname(self):
         """get_bookingids test with two arguments"""
-        create_booking(updates)
+        create_booking(booking_data)
         assert get_bookingids(firstname="Jan", lastname="Kowalski").status_code == 200
 
     def test_get_bookingids_fname_empty(self):
         """get_bookingids test with empty firstname value"""
-        create_booking(updates)
+        create_booking(booking_data)
         assert get_bookingids(firstname="").status_code == 200
 
     def test_get_bookingids_checkin(self):
         """get_bookingids test with checkin value greater than in argument"""
-        booking = create_booking(updates)
-        booking1 = get_bookingids(checkin="2021-01-01")
-        assert booking1.status_code == 200
-        assert {'bookingid': booking.json()['bookingid']} in booking1.json()
+        booking = create_booking(booking_data)
+        booking_list = get_bookingids(checkin="2022-01-01")
+        assert booking_list.status_code == 200
+        assert {'bookingid': booking.json()['bookingid']} in booking_list.json()
 
     def test_get_bookingids_checkin_year(self):
         """get_bookingids test with only year in checkin value"""
-        create_booking(updates)
+        create_booking(booking_data)
         assert get_bookingids(checkin="2021").status_code == 200
 
     def test_get_bookingids_checkin_incorrect(self):
         """get_bookingids test with incorrect checkin value"""
-        create_booking(updates)
+        create_booking(booking_data)
         assert get_bookingids(checkin="20").status_code == 500
 
     def test_get_bookingids_checkin_empty(self):
         """get_bookingids test with empty checkin value"""
-        create_booking(updates)
+        create_booking(booking_data)
         assert get_bookingids(checkin="").status_code == 200
 
     def test_get_booking_id(self):
@@ -142,18 +141,18 @@ class Tests:
 
     def test_create_booking_correct_value(self):
         """create_booking with correct values"""
-        booking = create_booking(updates)
+        booking = create_booking(booking_data)
         assert booking.status_code == 200
-        assert booking.json()['booking'] == updates
+        assert booking.json()['booking'] == booking_data
 
     def test_create_booking_no_additional(self):
         """create_booking with correct values without key 'additionalneeds'"""
         data = {'firstname': 'Jan',
-           'lastname': 'Kowalski',
-           'totalprice': 212,
-           'depositpaid': True,
-           'bookingdates': {'checkin': '2022-01-01', 'checkout': '2022-01-02'},
-           }
+                'lastname': 'Kowalski',
+                'totalprice': 212,
+                'depositpaid': True,
+                'bookingdates': {'checkin': '2022-01-01', 'checkout': '2022-01-02'},
+                }
         booking = create_booking(data)
         assert booking.status_code == 200
         assert booking.json()['booking'] == data
@@ -189,7 +188,7 @@ class Tests:
 
     def test_update_booking_correct(self):
         """update_booking with correct values"""
-        booking = create_booking(updates).json()
+        booking = create_booking(booking_data).json()
         assert update_booking(booking['bookingid'],
                               update={'firstname': 'Henry', 'lastname': 'Kowalski', 'totalprice': 212,
                                       'depositpaid': False,
@@ -198,7 +197,7 @@ class Tests:
 
     def test_update_booking_lack_of_values(self):
         """update_booking with no 'depositpaid' value"""
-        booking = create_booking(updates).json()
+        booking = create_booking(booking_data).json()
         assert update_booking(booking['bookingid'],
                               update={'firstname': 'Henry', 'lastname': 'Kowalski', 'totalprice': 212,
                                       'bookingdates': {'checkin': '2022-01-01', 'checkout': '2022-01-02'},
@@ -213,7 +212,7 @@ class Tests:
 
     def test_update_booking_incorrect_values(self):
         """update_booking with incorrect values"""
-        booking = create_booking(updates).json()
+        booking = create_booking(booking_data).json()
         assert update_booking(booking['bookingid'], update={'firstname': True, 'lastname': 123, 'totalprice': 'Ham',
                                                             'depositpaid': 'money',
                                                             'bookingdates': {'checkin': '2022-01-01',
@@ -222,8 +221,10 @@ class Tests:
 
     def test_delete_booking(self):
         """delete_booking with correct id"""
-        booking = create_booking(updates).json()
+        booking = create_booking(booking_data).json()
+        booking_list = get_bookingids(checkin="2022-01-01")
         assert delete_booking(booking['bookingid']).status_code == 201
+        assert {'bookingid': booking['bookingid']} not in booking_list.json()
 
     def test_delete_booking_incorrect_id(self):
         """delete_booking with incorrect id"""
@@ -231,27 +232,26 @@ class Tests:
 
     def test_partial_update_booking_correct(self):
         """partial_update with correct values"""
-        booking = create_booking(updates).json()
+        booking = create_booking(booking_data).json()
         assert partial_update(booking['bookingid'], update={'firstname': 'Jan'}).status_code == 200
 
     def test_partial_update_booking_incorrect_firstname(self):
         """partial_update with incorrect firstname values"""  # bug, it can update firstname with different type
-        booking = create_booking(updates).json()
+        booking = create_booking(booking_data).json()
         booking1 = partial_update(booking['bookingid'], update={'firstname': 2})
         assert booking1.status_code == 200
         assert booking1.json()['firstname'] == 2
 
     def test_partial_update_booking_incorrect_lastname(self):
         """partial_update with incorrect firstname values"""  # bug, it can update lastname with different type
-        booking = create_booking(updates).json()
+        booking = create_booking(booking_data).json()
         booking1 = partial_update(booking['bookingid'], update={'lastname': True})
         assert booking1.status_code == 200
         assert booking1.json()['lastname'] == True
 
     def test_partial_update_booking_incorrect_checkin(self):
         """partial_update with incorrect firstname values"""  # bug, status code is 200 but data is not updated
-        booking = create_booking(updates).json()
+        booking = create_booking(booking_data).json()
         booking1 = partial_update(booking['bookingid'], update={'checkin': True})
         assert booking1.status_code == 200
         assert booking1.json()['bookingdates']['checkin'] == '2022-01-01'
-
