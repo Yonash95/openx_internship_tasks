@@ -253,5 +253,5 @@ class Tests:
         booking = create_booking(updates).json()
         booking1 = partial_update(booking['bookingid'], update={'checkin': True})
         assert booking1.status_code == 200
-        assert booking1.json()['bookingdates']['checkin'] == True
+        assert booking1.json()['bookingdates']['checkin'] == '2022-01-01'
 
