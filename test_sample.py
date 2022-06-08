@@ -53,7 +53,7 @@ def create_token(uname, passw):
 
 
 def update_booking(booking_id, update):
-    """Updates a current booking with a partial payload"""
+    """Updates a current booking"""
     response = requests.put(
         url=f"https://restful-booker.herokuapp.com/booking/{booking_id}",
         json=update,
