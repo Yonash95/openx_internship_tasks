@@ -62,17 +62,6 @@ def booking_data():
     return booking
 
 
-def update_data():
-    """Function """
-    update = {}
-    booking = booking_data()
-    for entry in booking:
-        if booking[entry] != "":
-            update[entry] = booking[entry]
-    print(update)
-    return update
-
-
 def partial_update():
     update = {}
     loop = True
