@@ -1,10 +1,8 @@
 import test_sample
 
 
-# menu for app
-
 def basic_menu():
-    """Menu do obsługi bazy danych"""
+    """Menu for whole program"""
     menu = {"1.": "Podaj listę rezerwacji", "2.": "Opis rezerwacji o wskazanym numerze", "3.": "Utwórz nową rezerwację",
             "4.": "Zaktualizuj wybraną rezerwację", "5.": "Popraw wpis", "6.": "Usuń wpis", "0.": "Zakończ"}
     while True:
@@ -51,6 +49,7 @@ def basic_menu():
 
 
 def booking_data():
+    """creates dictionary with booking data for create and update functionality"""
     booking = {'firstname': input("Imię: "),
                'lastname': input("Nazwisko: "),
                'totalprice': int(input("Cena: ")),
@@ -63,6 +62,7 @@ def booking_data():
 
 
 def partial_update():
+    """creates dictionary for partial update"""
     update = {}
     loop = True
     while loop is True:

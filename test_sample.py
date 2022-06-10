@@ -90,9 +90,9 @@ class Tests:
     def test_get_bookingids_fname(self):
         """get_bookingids test with one argument"""
         booking = create_booking(update={'firstname': 'Januszek', 'lastname': 'Kowalski', 'totalprice': 212,
-                                          'depositpaid': True,
-                                          'bookingdates': {'checkin': '2022-01-01', 'checkout': '2022-01-02'},
-                                          'additionalneeds': 'dinner'}).json()['bookingid']
+                                         'depositpaid': True,
+                                         'bookingdates': {'checkin': '2022-01-01', 'checkout': '2022-01-02'},
+                                         'additionalneeds': 'dinner'}).json()['bookingid']
         booking_list = get_bookingids(firstname="Januszek")
         assert booking_list.status_code == 200
         assert booking_list.json()[0]['bookingid'] == booking
