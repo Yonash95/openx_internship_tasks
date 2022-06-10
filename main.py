@@ -1,4 +1,6 @@
 import test_sample
+
+
 # menu for app
 
 def basic_menu():
@@ -17,8 +19,12 @@ def basic_menu():
             print(test_sample.get_bookingids().json())
 
         elif select == 2:  # wpis do bazy o podanym id
-            id = int(input("Podaj numer rezerwacji: "))
-            print(test_sample.get_booking(id).json())
+            try:
+                booking_id = int(input("Podaj numer rezerwacji: "))
+                print(test_sample.get_booking(booking_id).json())
+            except Exception as e:
+                print("Nie ma rezerwacji o takim numerze")
+                continue
 
         elif select == 3:  # nowy wpis do bazy
             booking = booking_data()
@@ -27,33 +33,37 @@ def basic_menu():
             print("Numer nowej rezerwacji to: ", new_booking.json()[0]['bookingid'])
 
         elif select == 4:  # aktualizacja wpisu
-            id = int(input("Podaj numer rezerwacji: "))
+            booking_id = int(input("Podaj numer rezerwacji: "))
             booking = booking_data()
-            test_sample.update_booking(id, booking)
+            test_sample.update_booking(booking_id, booking)
             new_booking = test_sample.get_bookingids(firstname=booking['firstname'])
             print("Numer nowej rezerwacji to: ", new_booking.json()[0]['bookingid'])
-        elif select == 5:
-            id = int(input("Podaj numer rezerwacji: "))
+
+        elif select == 5:  # aktualizacja jednego elementu wpisu
+            booking_id = int(input("Podaj numer rezerwacji: "))
             update = partial_update()
             print(update)
-            test_sample.partial_update(id, update)
-        elif select == 6:
-            pass
+            test_sample.partial_update(booking_id, update)
+
+        elif select == 6:  # usunięcie wpisu z bazy
+            booking_id = int(input("Podaj numer rezerwacji: "))
+            test_sample.delete_booking(booking_id)
 
 
 def booking_data():
     booking = {'firstname': input("Imię: "),
-                'lastname': input("Nazwisko: "),
-                'totalprice': int(input("Cena: ")),
-                'depositpaid': bool(input("Wpłacono kaucję? (1) Tak, (0) Nie: ")),
-                'bookingdates': {'checkin': input("Data zameldowania (rrrr-mm-dd): "),
-                                 'checkout': input("Data wymeldowania (rrrr-mm-dd): ")},
-                'additionalneeds': input("Dodatkowe informacje: ")}
+               'lastname': input("Nazwisko: "),
+               'totalprice': int(input("Cena: ")),
+               'depositpaid': bool(input("Wpłacono kaucję? (1) Tak, (0) Nie: ")),
+               'bookingdates': {'checkin': input("Data zameldowania (rrrr-mm-dd): "),
+                                'checkout': input("Data wymeldowania (rrrr-mm-dd): ")},
+               'additionalneeds': input("Dodatkowe informacje: ")}
     print(booking)
     return booking
 
 
 def update_data():
+    """Function """
     update = {}
     booking = booking_data()
     for entry in booking:
