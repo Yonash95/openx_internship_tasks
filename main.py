@@ -1,10 +1,12 @@
 import test_sample
+import json
 
 
 def basic_menu():
     """Menu for whole program"""
     menu = {"1.": "Podaj listę rezerwacji", "2.": "Opis rezerwacji o wskazanym numerze", "3.": "Utwórz nową rezerwację",
-            "4.": "Zaktualizuj wybraną rezerwację", "5.": "Popraw wpis", "6.": "Usuń wpis", "0.": "Zakończ"}
+            "4.": "Zaktualizuj wybraną rezerwację", "5.": "Popraw wpis", "6.": "Usuń wpis",
+            "7.": "Zapisz listę rezerwacji", "0.": "Zakończ"}
     while True:
         options = menu.keys()
         for entry in options:
@@ -50,6 +52,9 @@ def basic_menu():
         elif select == 6:  # delete entry from data base
             booking_id = int(input("Podaj numer rezerwacji: "))
             test_sample.delete_booking(booking_id)
+        elif select == 7:  # write to booking list to file
+            #dump_bookings_to_file()
+            pass
 
 
 def booking_data():
@@ -109,6 +114,22 @@ def partial_update():
             print("Podano zły typ danych, patrz nawiasy")
     return update
 
+
+def dump_bookings_to_file():
+    booking_list = []
+    booking_dict = test_sample.get_bookingids().json()
+    for i in booking_dict:
+        booking_list.append(i['bookingid'])
+    print(booking_list)
+    with open("booking_list.txt", 'a') as booking_file:
+        for i in booking_list:
+            try:
+                single_booking = test_sample.get_booking(i).json()
+                print(single_booking)
+                booking_file.write(json.dumps(single_booking))
+            except Exception:
+                booking_file.write("Brak rezerwacji o numerze: " + str(i))
+                continue
 
 
 basic_menu()
