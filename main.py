@@ -67,7 +67,7 @@ def booking_data():
             print(booking)
             return booking
         except ValueError:
-            print("Podano zły typ")
+            print("Podano zły typ danych, patrz nawiasy")
             continue
 
 
@@ -76,35 +76,39 @@ def booking_data():
 def partial_update():
     """creates dictionary for partial update"""
     update = {}
-    loop = True
-    while loop is True:
-        print("Co chcesz poprawić?: ")
-        partial_update_menu = {"1.": "Imię", "2.": "Nazwisko", "3.": "Cenę", "4.": "Kaucja", "5.": "Data zameldowania",
-                               "6.": "Data wymeldowania", "7.": "Dodatkowe informacje", "0.": "Już wszstko"}
-        option = partial_update_menu.keys()
-        for entry in option:
-            print(entry, partial_update_menu[entry])
+    while True:
+        try:
+            print("Co chcesz poprawić?: ")
+            partial_update_menu = {"1.": "Imię", "2.": "Nazwisko", "3.": "Cenę", "4.": "Kaucja", "5.": "Data zameldowania",
+                                   "6.": "Data wymeldowania", "7.": "Dodatkowe informacje", "0.": "Już wszstko"}
+            option = partial_update_menu.keys()
+            for entry in option:
+                print(entry, partial_update_menu[entry])
 
-        select = int(input("Wybierz: "))
-        if select == 0:
-            break
-        elif select == 1:
-            update['firstname'] = input("Nowe imię: ")
-        elif select == 2:
-            update['lastname'] = input("Nowe nazwisko: ")
-        elif select == 3:
-            update['totalprice'] = int(input("Nowa cena: "))
-        elif select == 4:
-            update['depositpaid'] = bool(input("Wpłacono kaucję? (1) Tak, (0) Nie: "))
-        elif select == 5 or 6:
-            if 'bookingdates' not in update:
-                update['bookingdates'] = {}
-            if select == 5:
-                update['bookingdates']['checkin'] = input("Nowa data zamelodwania (rrrr-mm-dd): ")
-            elif select == 6:
-                update['bookingdates']['checkout'] = input("Nowa data wymeldowania (rrrr-mm-dd): ")
-        print(update)
+            select = int(input("Wybierz: "))
+            if select == 0:
+                break
+            elif select == 1:
+                update['firstname'] = input("Nowe imię: ")
+            elif select == 2:
+                update['lastname'] = input("Nowe nazwisko: ")
+            elif select == 3:
+                update['totalprice'] = int(input("Nowa cena (cyfry): "))
+            elif select == 4:
+                update['depositpaid'] = bool(input("Wpłacono kaucję? (1) Tak, (0) Nie: "))
+            elif select == 5 or 6:
+                if 'bookingdates' not in update:
+                    update['bookingdates'] = {}
+                if select == 5:
+                    update['bookingdates']['checkin'] = input("Nowa data zamelodwania (rrrr-mm-dd): ")
+                elif select == 6:
+                    update['bookingdates']['checkout'] = input("Nowa data wymeldowania (rrrr-mm-dd): ")
+            print(update)
+
+        except ValueError:
+            print("Podano zły typ danych, patrz nawiasy")
     return update
+
 
 
 basic_menu()
