@@ -9,56 +9,68 @@ def basic_menu():
         options = menu.keys()
         for entry in options:
             print(entry, menu[entry])
-        select = int(input("Wybierz: "))
+        try:
+            select = int(input("Wybierz: "))
+        except ValueError:
+            print("Musisz podać cyfrę")
+            continue
         if select == 0:
             break
 
-        elif select == 1:  # lista rezerwacji
+        elif select == 1:  # reservations list
             print(test_sample.get_bookingids().json())
 
-        elif select == 2:  # wpis do bazy o podanym id
+        elif select == 2:  # database query
             try:
                 booking_id = int(input("Podaj numer rezerwacji: "))
                 print(test_sample.get_booking(booking_id).json())
-            except Exception as e:
+            except Exception:
                 print("Nie ma rezerwacji o takim numerze")
                 continue
 
-        elif select == 3:  # nowy wpis do bazy
+        elif select == 3:  # new database entry
             booking = booking_data()
             test_sample.create_booking(booking)
             new_booking = test_sample.get_bookingids(firstname=booking['firstname'])
             print("Numer nowej rezerwacji to: ", new_booking.json()[0]['bookingid'])
 
-        elif select == 4:  # aktualizacja wpisu
+        elif select == 4:  # whole entry update
             booking_id = int(input("Podaj numer rezerwacji: "))
             booking = booking_data()
             test_sample.update_booking(booking_id, booking)
             new_booking = test_sample.get_bookingids(firstname=booking['firstname'])
             print("Numer nowej rezerwacji to: ", new_booking.json()[0]['bookingid'])
 
-        elif select == 5:  # aktualizacja jednego elementu wpisu
+        elif select == 5:  # partial entry update
             booking_id = int(input("Podaj numer rezerwacji: "))
             update = partial_update()
             print(update)
             test_sample.partial_update(booking_id, update)
 
-        elif select == 6:  # usunięcie wpisu z bazy
+        elif select == 6:  # delete entry from data base
             booking_id = int(input("Podaj numer rezerwacji: "))
             test_sample.delete_booking(booking_id)
 
 
 def booking_data():
     """creates dictionary with booking data for create and update functionality"""
-    booking = {'firstname': input("Imię: "),
-               'lastname': input("Nazwisko: "),
-               'totalprice': int(input("Cena: ")),
-               'depositpaid': bool(input("Wpłacono kaucję? (1) Tak, (0) Nie: ")),
-               'bookingdates': {'checkin': input("Data zameldowania (rrrr-mm-dd): "),
-                                'checkout': input("Data wymeldowania (rrrr-mm-dd): ")},
-               'additionalneeds': input("Dodatkowe informacje: ")}
-    print(booking)
-    return booking
+    while True:
+        try:
+            booking = {'firstname': input("Imię: "),
+                       'lastname': input("Nazwisko: "),
+                       'totalprice': int(input("Cena (cyfry): ")),
+                       'depositpaid': bool(input("Wpłacono kaucję? (1) Tak, (0) Nie: ")),
+                       'bookingdates': {'checkin': input("Data zameldowania (rrrr-mm-dd): "),
+                                        'checkout': input("Data wymeldowania (rrrr-mm-dd): ")},
+                       'additionalneeds': input("Dodatkowe informacje: ")}
+
+            print(booking)
+            return booking
+        except ValueError:
+            print("Podano zły typ")
+            continue
+
+
 
 
 def partial_update():
@@ -81,7 +93,7 @@ def partial_update():
         elif select == 2:
             update['lastname'] = input("Nowe nazwisko: ")
         elif select == 3:
-            update['totalprice'] = input("Nowa cena: ")
+            update['totalprice'] = int(input("Nowa cena: "))
         elif select == 4:
             update['depositpaid'] = bool(input("Wpłacono kaucję? (1) Tak, (0) Nie: "))
         elif select == 5 or 6:
