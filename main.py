@@ -120,7 +120,6 @@ def dump_bookings_to_file():
     booking_dict = test_sample.get_bookingids().json()
     for i in booking_dict:
         booking_list.append(i['bookingid'])
-    print(booking_list)
     with open("booking_list.txt", 'a') as booking_file:
         for i in booking_list:
             try:
