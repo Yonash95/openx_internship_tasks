@@ -19,7 +19,14 @@ def basic_menu():
             break
 
         elif select == 1:  # reservations list
-            print(functions.get_bookingids().json())
+            print("1. Cała lista \n2. Filtruj")
+            sub_select = int(input("Wybierz: "))
+            if sub_select == 1:
+                lista = functions.get_bookingids().json()
+                print(lista)
+                print(len("Liczba rezerwacji: ", lista))
+            else:
+                functions.filtered_list()
 
         elif select == 2:  # database query
             try:

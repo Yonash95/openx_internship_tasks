@@ -126,3 +126,7 @@ def create_partial_update():
         except ValueError:
             print("Podano zły typ danych, patrz nawiasy")
     return update
+
+
+def filtered_list():
+    pass
