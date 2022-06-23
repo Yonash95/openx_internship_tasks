@@ -39,8 +39,6 @@ def basic_menu():
             booking_id = int(input("Podaj numer rezerwacji: "))
             booking = functions.create_booking_data()
             functions.update_booking(booking_id, booking)
-            new_booking = functions.get_bookingids(firstname=booking['firstname'])
-            print("Numer nowej rezerwacji to: ", new_booking.json()[0]['bookingid'])
 
         elif select == 5:  # partial entry update
             booking_id = int(input("Podaj numer rezerwacji: "))

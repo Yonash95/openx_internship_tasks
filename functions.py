@@ -1,12 +1,5 @@
 import requests
 
-booking_data = {'firstname': 'Jan',
-                'lastname': 'Kowalski',
-                'totalprice': 212,
-                'depositpaid': True,
-                'bookingdates': {'checkin': '2022-01-01', 'checkout': '2022-01-02'},
-                'additionalneeds': 'dinner'}  # global variable for tests
-
 
 def ping():
     """A simple health check endpoint to confirm whether the API is up and running."""
@@ -39,16 +32,16 @@ def get_booking(booking_id):
     return response
 
 
-def create_booking(update):
+def create_booking(new_booking_data):
     """Creates a new booking in the API"""
-    response = requests.post(url="https://restful-booker.herokuapp.com/booking", json=update)
+    response = requests.post(url="https://restful-booker.herokuapp.com/booking", json=new_booking_data)
     return response
 
 
-def create_token(uname, passw):
+def create_token(username, password):
     """Creates a new auth token to use for access to the PUT and DELETE /booking"""
     response = requests.post(url="https://restful-booker.herokuapp.com/auth",
-                             data={"username": uname, "password": passw})
+                             data={"username": username, "password": password})
     return response
 
 
