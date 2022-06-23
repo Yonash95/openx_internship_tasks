@@ -139,6 +139,5 @@ def filtered_list():
             filters['checkin'] = input("Data zamelodwania (rrrr-mm-dd): ")
         elif select == 4:
             filters['checkout'] = input("Data wymeldowania (rrrr-mm-dd): ")
-    print(filters)
     booking_list = get_bookingids(filters)
     return booking_list.json()
