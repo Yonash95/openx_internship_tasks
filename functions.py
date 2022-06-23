@@ -89,7 +89,7 @@ def create_partial_update():
     while True:
         try:
             print("Co chcesz poprawić?: ")
-            menu = {"1.": "Imię", "2.": "Nazwisko", "3.": "Cenę", "4.": "Kaucja","5.": "Data zameldowania",
+            menu = {"1.": "Imię", "2.": "Nazwisko", "3.": "Cenę", "4.": "Kaucja", "5.": "Data zameldowania",
                     "6.": "Data wymeldowania", "7.": "Dodatkowe informacje", "0.": "Już wszstko"}
             option = menu.keys()
             for entry in option:
