@@ -7,21 +7,14 @@ def ping():
     return response
 
 
-def get_bookingids(firstname="", lastname="", checkin="", checkout=""):
+def get_bookingids(filter_dict=""):
     """Returns the ids of all the bookings.
     Can take optional query strings to search and return a subset of booking ids """
-    varlist = [firstname, lastname, checkin, checkout]
     url = "https://restful-booker.herokuapp.com/booking?"
-    for i in varlist:
-        if i:
-            if i == firstname:
-                url = url + "firstname=" + i + "&"
-            if i == lastname:
-                url = url + "lastname=" + i + "&"
-            if i == checkin:
-                url = url + "checkin=" + i + "&"
-            if i == checkout:
-                url = url + "checkout=" + i + "&"
+    if filter_dict:
+        keys = list(filter_dict.keys())
+        for entry in keys:
+            url = url + entry + "=" + filter_dict[entry] + "&"
     response = requests.get(url=url)
     return response
 
@@ -96,12 +89,11 @@ def create_partial_update():
     while True:
         try:
             print("Co chcesz poprawić?: ")
-            partial_update_menu = {"1.": "Imię", "2.": "Nazwisko", "3.": "Cenę", "4.": "Kaucja",
-                                   "5.": "Data zameldowania", "6.": "Data wymeldowania", "7.": "Dodatkowe informacje",
-                                   "0.": "Już wszstko"}
-            option = partial_update_menu.keys()
+            menu = {"1.": "Imię", "2.": "Nazwisko", "3.": "Cenę", "4.": "Kaucja","5.": "Data zameldowania",
+                    "6.": "Data wymeldowania", "7.": "Dodatkowe informacje", "0.": "Już wszstko"}
+            option = menu.keys()
             for entry in option:
-                print(entry, partial_update_menu[entry])
+                print(entry, menu[entry])
 
             select = int(input("Wybierz: "))
             if select == 0:
@@ -129,4 +121,24 @@ def create_partial_update():
 
 
 def filtered_list():
-    pass
+    filters = {}
+    print("Po czym chcesz wyszukiwać")
+    menu = {"1.": "Imię", "2.": "Nazwisko", "3.": "Data zameldowania", "4.": "Data wymeldowania", "0.": "Zakończ"}
+    option = menu.keys()
+    for entry in option:
+        print(entry, menu[entry])
+    while True:
+        select = int(input("Wybierz: "))
+        if select == 0:
+            break
+        elif select == 1:
+            filters['firstname'] = input("Imię: ")
+        elif select == 2:
+            filters['lastname'] = input("Nazwisko: ")
+        elif select == 3:
+            filters['checkin'] = input("Data zamelodwania (rrrr-mm-dd): ")
+        elif select == 4:
+            filters['checkout'] = input("Data wymeldowania (rrrr-mm-dd): ")
+    print(filters)
+    booking_list = get_bookingids(filters)
+    return booking_list.json()
