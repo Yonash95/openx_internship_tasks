@@ -1,4 +1,4 @@
-import test_sample
+import functions
 import json
 
 
@@ -20,41 +20,38 @@ def basic_menu():
             break
 
         elif select == 1:  # reservations list
-            print(test_sample.get_bookingids().json())
+            print(functions.get_bookingids().json())
 
         elif select == 2:  # database query
             try:
                 booking_id = int(input("Podaj numer rezerwacji: "))
-                print(test_sample.get_booking(booking_id).json())
+                print(functions.get_booking(booking_id).json())
             except Exception:
                 print("Nie ma rezerwacji o takim numerze")
                 continue
 
         elif select == 3:  # new database entry
             booking = booking_data()
-            test_sample.create_booking(booking)
-            new_booking = test_sample.get_bookingids(firstname=booking['firstname'])
+            functions.create_booking(booking)
+            new_booking = functions.get_bookingids(firstname=booking['firstname'])
             print("Numer nowej rezerwacji to: ", new_booking.json()[0]['bookingid'])
 
         elif select == 4:  # whole entry update
             booking_id = int(input("Podaj numer rezerwacji: "))
             booking = booking_data()
-            test_sample.update_booking(booking_id, booking)
-            new_booking = test_sample.get_bookingids(firstname=booking['firstname'])
+            functions.update_booking(booking_id, booking)
+            new_booking = functions.get_bookingids(firstname=booking['firstname'])
             print("Numer nowej rezerwacji to: ", new_booking.json()[0]['bookingid'])
 
         elif select == 5:  # partial entry update
             booking_id = int(input("Podaj numer rezerwacji: "))
             update = partial_update()
             print(update)
-            test_sample.partial_update(booking_id, update)
+            functions.partial_update(booking_id, update)
 
         elif select == 6:  # delete entry from data base
             booking_id = int(input("Podaj numer rezerwacji: "))
-            test_sample.delete_booking(booking_id)
-        elif select == 7:  # write to booking list to file
-            #dump_bookings_to_file()
-            pass
+            functions.delete_booking(booking_id)
 
 
 def booking_data():
@@ -76,15 +73,14 @@ def booking_data():
             continue
 
 
-
-
 def partial_update():
     """creates dictionary for partial update"""
     update = {}
     while True:
         try:
             print("Co chcesz poprawić?: ")
-            partial_update_menu = {"1.": "Imię", "2.": "Nazwisko", "3.": "Cenę", "4.": "Kaucja", "5.": "Data zameldowania",
+            partial_update_menu = {"1.": "Imię", "2.": "Nazwisko", "3.": "Cenę", "4.": "Kaucja",
+                                   "5.": "Data zameldowania",
                                    "6.": "Data wymeldowania", "7.": "Dodatkowe informacje", "0.": "Już wszstko"}
             option = partial_update_menu.keys()
             for entry in option:
@@ -113,22 +109,6 @@ def partial_update():
         except ValueError:
             print("Podano zły typ danych, patrz nawiasy")
     return update
-
-
-def dump_bookings_to_file():
-    booking_list = []
-    booking_dict = test_sample.get_bookingids().json()
-    for i in booking_dict:
-        booking_list.append(i['bookingid'])
-    with open("booking_list.txt", 'a') as booking_file:
-        for i in booking_list:
-            try:
-                single_booking = test_sample.get_booking(i).json()
-                print(single_booking)
-                booking_file.write(json.dumps(single_booking))
-            except Exception:
-                booking_file.write("Brak rezerwacji o numerze: " + str(i))
-                continue
 
 
 basic_menu()
