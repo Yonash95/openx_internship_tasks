@@ -61,11 +61,11 @@ def update_booking(booking_id, update):
     return response
 
 
-def partial_update(booking_id, update):
+def partial_update(booking_id):
     """Updates a current booking with a partial payload"""
     response = requests.patch(
         url=f"https://restful-booker.herokuapp.com/booking/{booking_id}",
-        json=update,
+        json=create_partial_update(),
         cookies={"token": create_token("admin", "password123").json()["token"]})
     return response
 
@@ -104,8 +104,8 @@ def create_partial_update():
         try:
             print("Co chcesz poprawić?: ")
             partial_update_menu = {"1.": "Imię", "2.": "Nazwisko", "3.": "Cenę", "4.": "Kaucja",
-                                   "5.": "Data zameldowania",
-                                   "6.": "Data wymeldowania", "7.": "Dodatkowe informacje", "0.": "Już wszstko"}
+                                   "5.": "Data zameldowania", "6.": "Data wymeldowania", "7.": "Dodatkowe informacje",
+                                   "0.": "Już wszstko"}
             option = partial_update_menu.keys()
             for entry in option:
                 print(entry, partial_update_menu[entry])

@@ -44,9 +44,7 @@ def basic_menu():
 
         elif select == 5:  # partial entry update
             booking_id = int(input("Podaj numer rezerwacji: "))
-            update = functions.create_partial_update()
-            print(update)
-            functions.partial_update(booking_id, update)
+            functions.partial_update(booking_id)
 
         elif select == 6:  # delete entry from data base
             booking_id = int(input("Podaj numer rezerwacji: "))
