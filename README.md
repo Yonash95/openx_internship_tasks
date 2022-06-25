@@ -1,12 +1,8 @@
-# openx_intership_tasks
-Task for internship
+# Little app for booking
+Program is based on internship task for test engineer. It is based on Restful-booker api (https://restful-booker.herokuapp.com/). Second branch (restful-booker-testing) is the original task.
 
-# longest_substring.xlsx
-First task. File with table of input/output data sets with description.
+# main.py
+Main file of program, it contains menu for navigation.
 
-# test_sample.py
-Second task. File with functions and test-cases for restful-booker API
-Observations:
-- PartialUpdateBooking can take inncorrect values types in place of strings. No matter value tape it allways returns hhtps code 200
-- CreateToken return code 200 with incorrect creditential given, but JSON obcjet is {'reason': 'Bad credentials'}
-- GetBookingIds with checkin parameter, return only dates greater that given. Documentation says it should also return equal dates, so test fails 
+# functions.py
+It contains all functions that are operating on data base by restful booker api. Adding, updating, editing and deleting entries to database that is rested every 10 minute, and filled with default entries.
