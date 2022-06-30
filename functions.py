@@ -68,18 +68,18 @@ def create_booking_data():
     """creates dictionary with booking data for create and update functionality"""
     while True:
         try:
-            booking = {'firstname': input("Imię: "),
-                       'lastname': input("Nazwisko: "),
-                       'totalprice': int(input("Cena (cyfry): ")),
-                       'depositpaid': bool(input("Wpłacono kaucję? (1) Tak, (0) Nie: ")),
-                       'bookingdates': {'checkin': input("Data zameldowania (rrrr-mm-dd): "),
-                                        'checkout': input("Data wymeldowania (rrrr-mm-dd): ")},
-                       'additionalneeds': input("Dodatkowe informacje: ")}
+            booking = {'firstname': input("First name: "),
+                       'lastname': input("Last name: "),
+                       'totalprice': int(input("Total price (digits): ")),
+                       'depositpaid': bool(input("Deposit paid? (1) Yes, (0) No: ")),
+                       'bookingdates': {'checkin': input("Checkin date (rrrr-mm-dd): "),
+                                        'checkout': input("Checkout date (rrrr-mm-dd): ")},
+                       'additionalneeds': input("Additional needs: ")}
 
             print(booking)
             return booking
         except ValueError:
-            print("Podano zły typ danych, patrz nawiasy")
+            print("Bad data type entered")
             continue
 
 
@@ -88,56 +88,56 @@ def create_partial_update():
     update = {}
     while True:
         try:
-            print("Co chcesz poprawić?: ")
-            menu = {"1.": "Imię", "2.": "Nazwisko", "3.": "Cenę", "4.": "Kaucja", "5.": "Data zameldowania",
-                    "6.": "Data wymeldowania", "7.": "Dodatkowe informacje", "0.": "Już wszstko"}
+            print("What do you want to correct: ")
+            menu = {"1.": "First name", "2.": "Last name", "3.": "Total price", "4.": "Deposit", "5.": "Checkin date",
+                    "6.": "Checkout date", "7.": "Additional information", "0.": "Finalise"}
             option = menu.keys()
             for entry in option:
                 print(entry, menu[entry])
 
-            select = int(input("Wybierz: "))
+            select = int(input("Select: "))
             if select == 0:
                 break
             elif select == 1:
-                update['firstname'] = input("Nowe imię: ")
+                update['firstname'] = input("New first name: ")
             elif select == 2:
-                update['lastname'] = input("Nowe nazwisko: ")
+                update['lastname'] = input("New Last name: ")
             elif select == 3:
-                update['totalprice'] = int(input("Nowa cena (cyfry): "))
+                update['totalprice'] = int(input("New total price (digits)"))
             elif select == 4:
-                update['depositpaid'] = bool(input("Wpłacono kaucję? (1) Tak, (0) Nie: "))
+                update['depositpaid'] = bool(input("Deposit paid? (1) Yes, (0) No: "))
             elif select == 5 or 6:
                 if 'bookingdates' not in update:
                     update['bookingdates'] = {}
                 if select == 5:
-                    update['bookingdates']['checkin'] = input("Nowa data zamelodwania (rrrr-mm-dd): ")
+                    update['bookingdates']['checkin'] = input("New checkin date (yyyy-mm-dd): ")
                 elif select == 6:
-                    update['bookingdates']['checkout'] = input("Nowa data wymeldowania (rrrr-mm-dd): ")
+                    update['bookingdates']['checkout'] = input("New checkout date (yyyy-mm-dd): ")
             print(update)
 
         except ValueError:
-            print("Podano zły typ danych, patrz nawiasy")
+            print("Bad data type")
     return update
 
 
 def filtered_list():
     filters = {}
-    print("Po czym chcesz wyszukiwać")
-    menu = {"1.": "Imię", "2.": "Nazwisko", "3.": "Data zameldowania", "4.": "Data wymeldowania", "0.": "Zakończ"}
+    print("Select filters")
+    menu = {"1.": "First name", "2.": "Last name", "3.": "Checkin date", "4.": "Checkout date", "0.": "Finalize"}
     option = menu.keys()
     for entry in option:
         print(entry, menu[entry])
     while True:
-        select = int(input("Wybierz: "))
+        select = int(input("Select: "))
         if select == 0:
             break
         elif select == 1:
-            filters['firstname'] = input("Imię: ")
+            filters['firstname'] = input("First name: ")
         elif select == 2:
-            filters['lastname'] = input("Nazwisko: ")
+            filters['lastname'] = input("Last name ")
         elif select == 3:
-            filters['checkin'] = input("Data zamelodwania (rrrr-mm-dd): ")
+            filters['checkin'] = input("Checkin date (yyyy-mm-dd): ")
         elif select == 4:
-            filters['checkout'] = input("Data wymeldowania (rrrr-mm-dd): ")
+            filters['checkout'] = input("Checkout date (yyyy-mm-dd): ")
     booking_list = get_bookingids(filters)
     return booking_list.json()
