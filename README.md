@@ -1,5 +1,5 @@
 # Little app for booking
-Program is based on internship task for test engineer. It is based on Restful-booker api (https://restful-booker.herokuapp.com/). Second branch (restful-booker-testing) is the original task.
+Program is based on internship task for test engineer. It is based on Restful-booker api (https://restful-booker.herokuapp.com/). Second branch (restful-booker-testing) is the original task. All you need for set up is python installed on your machine. 
 
 # main.py
 Main file of program, it contains menu for navigation.
