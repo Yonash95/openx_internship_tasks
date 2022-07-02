@@ -1,4 +1,5 @@
 import requests
+import json
 
 
 def ping():
@@ -141,3 +142,16 @@ def filtered_list():
             filters['checkout'] = input("Checkout date (yyyy-mm-dd): ")
     booking_list = get_bookingids(filters)
     return booking_list.json()
+
+
+def save_to_file():
+    idlist = get_bookingids().json()
+    for i in range(len(idlist)):
+        idlist[i] = idlist[i]['bookingid']
+    with open("booking_list.txt", "a") as bookingslist:
+        for i in idlist[:10]:  # Only ten entries is saved because it takes a lot of time to save all ;)
+            booking = get_booking(i).json()
+            print(booking)
+            bookingslist.write(json.dumps(booking))
+        bookingslist.close()
+
