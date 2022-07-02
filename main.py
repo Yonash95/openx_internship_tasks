@@ -57,5 +57,9 @@ def basic_menu():
             booking_id = int(input("Enter booking number: "))
             functions.delete_booking(booking_id)
 
+        elif select == 7:
+            functions.save_to_file()
+            print("Bookings saved to file")
+
 
 basic_menu()
