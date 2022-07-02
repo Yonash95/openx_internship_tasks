@@ -122,6 +122,7 @@ def create_partial_update():
 
 
 def filtered_list():
+    """allow to create filters for easier search of bookings"""
     filters = {}
     print("Select filters")
     menu = {"1.": "First name", "2.": "Last name", "3.": "Checkin date", "4.": "Checkout date", "0.": "Finalize"}
@@ -145,6 +146,7 @@ def filtered_list():
 
 
 def save_to_file():
+    """saves first 10 bookings to file, just for practice"""
     idlist = get_bookingids().json()
     for i in range(len(idlist)):
         idlist[i] = idlist[i]['bookingid']
