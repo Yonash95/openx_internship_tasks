@@ -1,7 +1,7 @@
 import requests
 import json
-import datetime
-import pathlib
+# import datetime
+# import pathlib
 
 
 def ping():
@@ -10,7 +10,7 @@ def ping():
     return response
 
 
-def get_bookingids(filter_dict=""):
+def get_bookingids(filter_dict=None):
     """Returns the ids of all the bookings.
     Can take optional query strings to search and return a subset of booking ids """
     url = "https://restful-booker.herokuapp.com/booking?"
