@@ -61,5 +61,9 @@ def basic_menu():
             functions.save_to_file()
             print("Bookings saved to file")
 
+        elif select == 8:
+            # functions.archive_saved_file()
+            print("File was archived (but it's just a dummy for now")
+
 
 basic_menu()
