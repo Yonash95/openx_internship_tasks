@@ -1,5 +1,7 @@
 import requests
 import json
+import datetime
+import pathlib
 
 
 def ping():
@@ -150,10 +152,25 @@ def save_to_file():
     idlist = get_bookingids().json()
     for i in range(len(idlist)):
         idlist[i] = idlist[i]['bookingid']
-    with open("booking_list.txt", "a") as bookingslist:
+    with open("booking_list.txt", "a") as bookings_list:
         for i in idlist[:10]:  # Only ten entries is saved because it takes a lot of time to save all ;)
             booking = get_booking(i).json()
             print(booking)
-            bookingslist.write(json.dumps(booking))
-        bookingslist.close()
+            bookings_list.write(json.dumps(booking))
+        bookings_list.close()
+    return bookings_list
 
+
+def archive_saved_file():
+    """makes a archive of booking_list file saved in save_to_file function"""
+    pass
+    """with open("booking_list.txt") as booking_list:
+        file_pattern = ".txt"
+        main_dir = "archive"
+        date_string = datetime.date.today().strftime("%Y-%m-%d")
+        cur_path = pathlib.Path(".")
+        paths = cur_path.glob(file_pattern)
+        for path in paths:
+            new_filename = f"{path.stem}_{date_string}.{path.suffix}"
+            new_path = cur_path.joinpath(main_dir, new_filename)
+            path.rename(new_path)"""
