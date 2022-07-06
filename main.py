@@ -1,11 +1,12 @@
 import functions
+from pprint import pprint
 
 
 def basic_menu():
     """Menu for whole program"""
     menu = {"1.": "Booking list", "2.": "Booking description", "3.": "Create new booking",
             "4.": "Update booking", "5.": "Correct booking", "6.": "Delete booking",
-            "7.": "Save booking list to file (absent from current version)", "0.": "End"}
+            "7.": "Save booking list to file", "0.": "End"}
     while True:
         options = menu.keys()
         for entry in options:
@@ -22,7 +23,7 @@ def basic_menu():
             print("1. Whole list \n2. Filter")
             sub_select = int(input("Select: "))
             if sub_select == 1:  # all reservations
-                lista = functions.get_bookingids().json()
+                lista = functions.get_bookingids()
                 print(lista)
                 print("Number of all bookings: ", len(lista))
             else:  # specified reservations
@@ -33,7 +34,7 @@ def basic_menu():
         elif select == 2:  # database query
             try:
                 booking_id = int(input("Enter booking id: "))
-                print(functions.get_booking(booking_id).json())
+                pprint(functions.get_booking(booking_id).json(), sort_dicts=False)
             except Exception:
                 print("No booking with this id")
                 continue

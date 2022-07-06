@@ -19,7 +19,11 @@ def get_bookingids(filter_dict=""):
         for entry in keys:
             url = url + entry + "=" + filter_dict[entry] + "&"
     response = requests.get(url=url)
-    return response
+    booking_list = []
+    for i in range(len(response.json())):
+        booking_list.append(response.json()[i]['bookingid'])
+
+    return booking_list
 
 
 def get_booking(booking_id):
@@ -144,14 +148,12 @@ def filtered_list():
         elif select == 4:
             filters['checkout'] = input("Checkout date (yyyy-mm-dd): ")
     booking_list = get_bookingids(filters)
-    return booking_list.json()
+    return booking_list
 
 
 def save_to_file():
     """saves first 10 bookings to file, just for practice"""
-    idlist = get_bookingids().json()
-    for i in range(len(idlist)):
-        idlist[i] = idlist[i]['bookingid']
+    idlist = get_bookingids()
     with open("booking_list.txt", "a") as bookings_list:
         for i in idlist[:10]:  # Only ten entries is saved because it takes a lot of time to save all ;)
             booking = get_booking(i).json()
