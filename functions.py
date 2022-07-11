@@ -2,7 +2,7 @@ import requests
 import json
 # import datetime
 # import pathlib
-# import pandas as pd
+import pandas as pd
 
 
 def ping():
@@ -152,11 +152,9 @@ def filtered_list():
 def save_to_file():
     """saves first 10 bookings to file, just for practice"""
     idlist = get_bookingids()
-    with open("booking_list.json", "a") as bookings_list:
-        for i in idlist[:10]:  # Only ten entries is saved because it takes a lot of time to save all ;)
-            booking = get_booking(i).json()
-            print(booking)
-            bookings_list.write(json.dumps(booking))
+    with open("booking_list.json", "w") as bookings_list:
+        booking = [get_booking(i).json() for i in idlist[:10]]  # Only ten entries to save time ;)
+        bookings_list.write(json.dumps(booking))
         bookings_list.close()
     return bookings_list
 
@@ -177,5 +175,6 @@ def archive_saved_file():
 
 
 def load_pandas():
-    pass
+    df = pd.read_json('booking_list.json')
+    print(df.to_string())
 
