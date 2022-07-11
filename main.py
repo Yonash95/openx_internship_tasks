@@ -42,8 +42,9 @@ def basic_menu():
         elif select == 3:  # new database entry
             booking = functions.create_booking_data()
             functions.create_booking(booking)
-            new_booking = functions.get_bookingids(firstname=booking['firstname'])
-            print(" Id of new booking: ", new_booking.json()[0]['bookingid'])
+            first_name = {'firstname': booking['firstname'], 'lastname': booking['lastname']}
+            new_booking = functions.get_bookingids(first_name)
+            print(" Id of new booking: ", new_booking[-1])
 
         elif select == 4:  # whole entry update
             booking_id = int(input("Enter booking id: "))
