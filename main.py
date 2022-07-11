@@ -6,7 +6,7 @@ def basic_menu():
     """Menu for whole program"""
     menu = {"1.": "Booking list", "2.": "Booking description", "3.": "Create new booking",
             "4.": "Update booking", "5.": "Correct booking", "6.": "Delete booking",
-            "7.": "Save booking list to file", "0.": "End"}
+            "7.": "Save booking list to file", "8.": "First 10 bookings by 'pandas'", "0.": "End"}
     while True:
         options = menu.keys()
         for entry in options:
@@ -63,8 +63,7 @@ def basic_menu():
             print("Bookings saved to file")
 
         elif select == 8:
-            functions.archive_saved_file()
-            # print("File was archived (but it's just a dummy for now)")
+            functions.load_pandas()
 
 
 basic_menu()
