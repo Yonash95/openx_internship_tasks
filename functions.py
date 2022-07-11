@@ -2,6 +2,7 @@ import requests
 import json
 # import datetime
 # import pathlib
+# import pandas as pd
 
 
 def ping():
@@ -19,10 +20,7 @@ def get_bookingids(filter_dict=None):
         for entry in keys:
             url = url + entry + "=" + filter_dict[entry] + "&"
     response = requests.get(url=url)
-    booking_list = []
-    for i in range(len(response.json())):
-        booking_list.append(response.json()[i]['bookingid'])
-
+    booking_list = [response.json()[x]['bookingid'] for x in range(len(response.json()))]
     return booking_list
 
 
@@ -154,7 +152,7 @@ def filtered_list():
 def save_to_file():
     """saves first 10 bookings to file, just for practice"""
     idlist = get_bookingids()
-    with open("booking_list.txt", "a") as bookings_list:
+    with open("booking_list.json", "a") as bookings_list:
         for i in idlist[:10]:  # Only ten entries is saved because it takes a lot of time to save all ;)
             booking = get_booking(i).json()
             print(booking)
@@ -166,8 +164,8 @@ def save_to_file():
 def archive_saved_file():
     """makes a archive of booking_list file saved in save_to_file function"""
     pass
-    """with open("booking_list.txt") as booking_list:
-        file_pattern = ".txt"
+    """with open("booking_list.json") as booking_list:
+        file_pattern = ".json"
         main_dir = "archive"
         date_string = datetime.date.today().strftime("%Y-%m-%d")
         cur_path = pathlib.Path(".")
@@ -176,3 +174,8 @@ def archive_saved_file():
             new_filename = f"{path.stem}_{date_string}.{path.suffix}"
             new_path = cur_path.joinpath(main_dir, new_filename)
             path.rename(new_path)"""
+
+
+def load_pandas():
+    pass
+
