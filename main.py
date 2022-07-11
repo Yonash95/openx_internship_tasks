@@ -23,13 +23,13 @@ def basic_menu():
             print("1. Whole list \n2. Filter")
             sub_select = int(input("Select: "))
             if sub_select == 1:  # all reservations
-                lista = functions.get_bookingids()
-                print(lista)
-                print("Number of all bookings: ", len(lista))
+                id_list = functions.get_bookingids()
+                print(id_list)
+                print("Number of all bookings: ", len(id_list))
             else:  # specified reservations
-                lista = functions.filtered_list()
-                print(lista)
-                print("Number of filtered bookings : ", len(lista))
+                id_list = functions.filtered_list()
+                print(id_list)
+                print("Number of filtered bookings : ", len(id_list))
 
         elif select == 2:  # database query
             try:
@@ -63,8 +63,8 @@ def basic_menu():
             print("Bookings saved to file")
 
         elif select == 8:
-            # functions.archive_saved_file()
-            print("File was archived (but it's just a dummy for now")
+            functions.archive_saved_file()
+            # print("File was archived (but it's just a dummy for now)")
 
 
 basic_menu()
