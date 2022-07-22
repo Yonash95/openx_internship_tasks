@@ -156,9 +156,7 @@ def save_to_file():
         booking = []
         i = 0
         for j in id_list[:10]:  # loop in place of list comprehension so we can ad id to each booking
-            print(j)
             booking.append(get_booking(j).json())
-            print(booking)
             booking[i]['id'] = j
             i += 1
         bookings_list.write(json.dumps(booking))
