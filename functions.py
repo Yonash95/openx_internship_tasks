@@ -186,5 +186,6 @@ def archive_saved_file():
 
 def load_pandas():
     df = pd.read_json('booking_list.json')
+    df = df[ ['id'] + [ col for col in df.columns if col != 'id' ] ]
     print(df.to_string())
 
