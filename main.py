@@ -1,12 +1,13 @@
 import functions
 from pprint import pprint
+import json
 
 
 def basic_menu():
     """Menu for whole program"""
     menu = {"1.": "Booking list", "2.": "Booking description", "3.": "Create new booking",
             "4.": "Update booking", "5.": "Correct booking", "6.": "Delete booking",
-            "7.": "Save booking list to file", "8.": "First 10 bookings by 'pandas'", "0.": "End"}
+            "7.": "Save booking list to file", "8.": "First 10 bookings displayed by 'pandas'", "0.": "End"}
     while True:
         options = menu.keys()
         for entry in options:
@@ -35,8 +36,8 @@ def basic_menu():
             try:
                 booking_id = int(input("Enter booking id: "))
                 pprint(functions.get_booking(booking_id).json(), sort_dicts=False)
-            except Exception:
-                print("No booking with this id")
+            except json.decoder.JSONDecodeError:
+                print("No booking with this id or booking was saved incorrectly")
                 continue
 
         elif select == 3:  # new database entry
