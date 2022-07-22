@@ -151,9 +151,19 @@ def filtered_list():
 
 def save_to_file():
     """saves first 10 bookings to file, just for practice"""
-    idlist = get_bookingids()
+    id_list = get_bookingids()
     with open("booking_list.json", "w") as bookings_list:
-        booking = [get_booking(i).json() for i in idlist[:10]]  # Only ten entries to save time ;)
+        """booking = [get_booking(i).json() for i in id_list[:10]]  # Only ten entries to save time ;)
+        bookings_list.write(json.dumps(booking))
+        bookings_list.close()"""
+        booking = []
+        i = 0
+        for j in id_list[:10]:
+            print(j)
+            booking.append(get_booking(j).json())
+            print(booking)
+            booking[i]['id'] = j
+            i += 1
         bookings_list.write(json.dumps(booking))
         bookings_list.close()
     return bookings_list
