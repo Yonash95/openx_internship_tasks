@@ -153,12 +153,9 @@ def save_to_file():
     """saves first 10 bookings to file, just for practice"""
     id_list = get_bookingids()
     with open("booking_list.json", "w") as bookings_list:
-        """booking = [get_booking(i).json() for i in id_list[:10]]  # Only ten entries to save time ;)
-        bookings_list.write(json.dumps(booking))
-        bookings_list.close()"""
         booking = []
         i = 0
-        for j in id_list[:10]:
+        for j in id_list[:10]:  # loop in place of list comprehension so we can ad id to each booking
             print(j)
             booking.append(get_booking(j).json())
             print(booking)
@@ -186,6 +183,5 @@ def archive_saved_file():
 
 def load_pandas():
     df = pd.read_json('booking_list.json')
-    df = df[ ['id'] + [ col for col in df.columns if col != 'id' ] ]
+    df = df[['id'] + [col for col in df.columns if col != 'id']]  # id on first place
     print(df.to_string())
-
