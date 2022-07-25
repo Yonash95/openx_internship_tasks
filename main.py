@@ -67,5 +67,8 @@ def basic_menu():
         elif select == 8:  # read saved .json file with help of pandas
             functions.load_pandas()
 
+        elif select == 9:  # archive saved .json file with day name added
+            functions.archive_saved_file()
+
 
 basic_menu()
