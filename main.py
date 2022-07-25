@@ -38,7 +38,6 @@ def basic_menu():
                 pprint(functions.get_booking(booking_id).json(), sort_dicts=False)
             except json.decoder.JSONDecodeError:
                 print("No booking with this id or booking was saved incorrectly")
-                continue
 
         elif select == 3:  # new database entry
             booking = functions.create_booking_data()
