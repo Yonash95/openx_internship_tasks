@@ -166,12 +166,15 @@ def save_to_file():
 
 def archive_saved_file():
     """makes a archive of booking_list file saved in save_to_file function"""
-    pathlib.Path("archive").mkdir(exist_ok=True)
+    pathlib.Path("/archive/a").mkdir(exist_ok=True, parents=True)
     file_pattern = "*.json"
     archive_dir = "archive"
     date_string = datetime.date.today().strftime("%Y-%m-%d")
     cur_path = pathlib.Path(".")
     paths = cur_path.glob(file_pattern)
+    if not list(paths):
+        print("No file to archive")
+        return
     try:
         for path in paths:
             new_filename = f"{path.stem}_{date_string}{path.suffix}"
