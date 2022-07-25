@@ -172,12 +172,14 @@ def archive_saved_file():
     date_string = datetime.date.today().strftime("%Y-%m-%d")
     cur_path = pathlib.Path(".")
     paths = cur_path.glob(file_pattern)
-    for path in paths:
-        new_filename = f"{path.stem}_{date_string}{path.suffix}"
-        new_path = cur_path.joinpath(archive_dir, new_filename)
-
-        path.rename(new_path)
-        print("File archived as '", new_filename, "'")
+    try:
+        for path in paths:
+            new_filename = f"{path.stem}_{date_string}{path.suffix}"
+            new_path = cur_path.joinpath(archive_dir, new_filename)
+            path.rename(new_path)
+            print("File archived as '", new_filename, "'")
+    except FileExistsError:
+        print("File was already archived today ")
 
 def load_pandas():
     df = pd.read_json('booking_list.json')
