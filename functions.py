@@ -166,7 +166,7 @@ def save_to_file():
 
 def archive_saved_file():
     """makes a archive of booking_list file saved in save_to_file function"""
-    pathlib.Path("/archive/a").mkdir(exist_ok=True, parents=True)
+    pathlib.Path("archive").mkdir(exist_ok=True)
     file_pattern = "*.json"
     archive_dir = "archive"
     date_string = datetime.date.today().strftime("%Y-%m-%d")
