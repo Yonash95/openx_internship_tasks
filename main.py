@@ -60,11 +60,11 @@ def basic_menu():
             booking_id = int(input("Enter booking number: "))
             functions.delete_booking(booking_id)
 
-        elif select == 7:
+        elif select == 7:  # saves 10 first entries to json file
             functions.save_to_file()
             print("Bookings saved to file")
 
-        elif select == 8:
+        elif select == 8:  # read saved .json file with help of pandas
             functions.load_pandas()
 
 
